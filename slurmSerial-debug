@@ -1,0 +1,61 @@
+#!/bin/sh
+#SBATCH --partition=debug
+#SBATCH --qos=debug
+#SBATCH --time=00:15:00
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=1
+#SBATCH --constraint=IB
+#SBATCH --mem=48000
+#SBATCH --job-name="serial_prime"
+#SBATCH --output=test-mpi-debug.out
+##SBATCH --mail-user=username@buffalo.edu
+##SBATCH --mail-type=ALL
+##SBATCH --requeue
+#Specifies that the job will be requeued after a node failure.
+#The default is that the job will not be requeued.
+
+echo "SLURM_JOBID="$SLURM_JOBID
+echo "SLURM_JOB_NODELIST"=$SLURM_JOB_NODELIST
+echo "SLURM_NNODES"=$SLURM_NNODES
+echo "SLURMTMPDIR="$SLURMTMPDIR
+
+echo "SLURM_SUBMIT_DIR="$SLURM_SUBMIT_DIR
+
+ulimit -s unlimited
+module load intel-mpi/2018.3
+module list
+export I_MPI_DEBUG=4
+export I_MPI_PMI_LIBRARY=/usr/lib64/libpmi.so
+echo "***********************************************************************"
+echo "test GNU compilers"
+
+which gcc
+gcc -v
+which mpicc
+#
+mpicc -o serial_prime serial_prime.c
+# ldd serial_prime-gcc
+echo "Launch helloworld test gcc"
+srun ./serial_prime
+
+echo "***********************************************************************"
+
+echo "***********************************************************************"
+# echo "test Intel compilers"
+# module load intel/18.3
+# module list
+
+# which icc
+# icc -V
+# which mpiicc
+#
+# mpiicc -o serial_prime serial_prime.c
+# ldd serial_prime-gcc
+# echo "Launch helloworld test mpi icc"
+# srun ./serial_prime
+
+echo "***********************************************************************"
+
+
+#
+echo "All Done!"
