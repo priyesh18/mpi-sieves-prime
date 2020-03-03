@@ -2,12 +2,12 @@
 #SBATCH --partition=debug
 #SBATCH --qos=debug
 #SBATCH --time=00:15:00
-#SBATCH --nodes=2
+#SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --constraint=IB
 #SBATCH --mem=48000
 #SBATCH --job-name="serial_prime"
-#SBATCH --output=test-mpi-debug.out
+#SBATCH --output=serial-mpi-debug.out
 ##SBATCH --mail-user=username@buffalo.edu
 ##SBATCH --mail-type=ALL
 ##SBATCH --requeue

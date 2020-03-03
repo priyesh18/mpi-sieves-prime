@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "mpi.h"
 #include <stdbool.h>
+#include <math.h>
 
 int main(argc, argv)
 	int argc;
@@ -16,9 +17,9 @@ int main(argc, argv)
 	MPI_Get_processor_name(procname, &len);
 	start_time = MPI_Wtime();	
 
-	short int isPrime[10000];
-	unsigned long int t, N = 1000;
-	unsigned long int low, high;
+	short int isPrime[1000];
+	unsigned long int t, N = 100;
+	unsigned long int low, high, start;
 	unsigned long int i, j, next = 1; //next = 1 is no. 2(first prime)
 	unsigned long int* data;
 	low = rank*(N/size);
@@ -32,19 +33,24 @@ int main(argc, argv)
 //	isPrime[1] = 0;
 	
 	//make processor 0 find the next prime and broadcast
-	if(rank == 0) {
-		while(!isPrime[next++]);
-	}
-	MPI_Bcast(&next, 1, MPI_UNSIGNED_LONG, 0, MPI_COMM_WORLD);
-	// TODO: change start value.
- 	for(i = 2; i*i <= high; i++) {
-		if(isPrime[i]) {
-			for( j = i*i; j <= N; j+=i)
-				isPrime[j] = 0;
+	while(next < sqrt(N)) {
+		if(rank == 0) {
+			while(!isPrime[next++] && next < sqrt(N));
 		}
+		MPI_Bcast(&next, 1, MPI_UNSIGNED_LONG, 0, MPI_COMM_WORLD);
+		if(low%next == 0) i = low;
+		else i = ceil(low/(float)next)*next;
+		//if(i == 0) i = 2;
+		if(i < next) i = next;
+		i = i < sqrt(N) ? i*i : i;	
+//		printf("i=%d, rank=%d\n",i,rank);
+//		Generally starts with i*i
+		for( j = i; j <= high; j+=next)
+			isPrime[j-1] = 0;
 	}
-	// for(i = 2; i <= N; i++) { if(isPrime) printf("%d ",i); } end_time = MPI_Wtime();
-	printf("calculated by %d of %d on node %s\n next=%d", rank,size, procname, next);
+	end_time = MPI_Wtime();
+	for(i = low; i < high; i++) { if(isPrime[i]) printf("%d ",i+1); }
+	printf("\ncalculated by %d of %d on node %s next=%d", rank,size, procname, next);
 	printf("Time for serial execution = %f seconds\n",end_time-start_time);
 return 0;
 }
