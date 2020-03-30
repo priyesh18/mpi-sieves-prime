@@ -1,7 +1,7 @@
-SLURM_JOBID=1753010
-SLURM_JOB_NODELIST=cpn-k08-34-[01-02]
+SLURM_JOBID=2164652
+SLURM_JOB_NODELIST=cpn-k08-24-01,cpn-k08-26-01
 SLURM_NNODES=2
-SLURMTMPDIR=/scratch/1753010
+SLURMTMPDIR=/scratch/2164652
 SLURM_SUBMIT_DIR=/user/priyeshs/mpi-sieves-prime
  Intel-MPI is in your path. This is adequate for compiling and running most
 codes. Source the
@@ -9,33 +9,42 @@ codes. Source the
 file for more features. 
 
 Currently Loaded Modules:
-  1) intel/18.3   2) intel-mpi/2018.3
+  1) intel-mpi/2018.3
 
  
 
 ***********************************************************************
 test GNU compilers
-/usr/bin/gcc
-Using built-in specs.
-COLLECT_GCC=gcc
-COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/lto-wrapper
-Target: x86_64-redhat-linux
-Configured with: ../configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=http://bugzilla.redhat.com/bugzilla --enable-bootstrap --enable-shared --enable-threads=posix --enable-checking=release --with-system-zlib --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object --enable-linker-build-id --with-linker-hash-style=gnu --enable-languages=c,c++,objc,obj-c++,java,fortran,ada,go,lto --enable-plugin --enable-initfini-array --disable-libgcj --with-isl=/builddir/build/BUILD/gcc-4.8.5-20150702/obj-x86_64-redhat-linux/isl-install --with-cloog=/builddir/build/BUILD/gcc-4.8.5-20150702/obj-x86_64-redhat-linux/cloog-install --enable-gnu-indirect-function --with-tune=generic --with-arch_32=x86-64 --build=x86_64-redhat-linux
-Thread model: posix
-gcc version 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) 
-/util/academic/intel/18.3/compilers_and_libraries_2018.3.222/linux/mpi/intel64/bin/mpicc
-Launch parallel prime gcc
-[-1] MPI startup(): Imported environment partly inaccesible. Map=0 Info=7d89d0
-[-1] MPI startup(): Imported environment partly inaccesible. Map=0 Info=19a99d0
-[0] MPI startup(): Multi-threaded optimized library
-[1] MPI startup(): tmi data transfer mode
-[0] MPI startup(): tmi data transfer mode
-[0] MPI startup(): Rank    Pid      Node name                           Pin cpu
-[0] MPI startup(): 0       18072    cpn-k08-34-01.cbls.ccr.buffalo.edu  +1
-[0] MPI startup(): 1       30698    cpn-k08-34-02.cbls.ccr.buffalo.edu  +1
-calculated by 0 of 2 on node cpn-k08-34-01.cbls.ccr.buffalo.edu
- next=2Time for serial execution = -1583156865.631541 seconds
-calculated by 1 of 2 on node cpn-k08-34-02.cbls.ccr.buffalo.edu
- next=2Time for serial execution = -1583156865.631121 seconds
 ***********************************************************************
+ The Intel 18.3 compilers are in your path. This is adequate for compiling and
+running most codes. Source compilervars.sh for more features including the
+debugger. 
+
+Currently Loaded Modules:
+  1) intel-mpi/2018.3   2) intel/18.3
+
+ 
+
+/util/academic/intel/18.3/bin/icc
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.3.222 Build 20180410
+Copyright (C) 1985-2018 Intel Corporation.  All rights reserved.
+
+/util/academic/intel/18.3/compilers_and_libraries_2018.3.222/linux/mpi/intel64/bin/mpiicc
+Launch parallel using intel test mpi icc
+[-1] MPI startup(): Imported environment partly inaccesible. Map=0 Info=b0f9d0
+[0] MPI startup(): Multi-threaded optimized library
+[-1] MPI startup(): Imported environment partly inaccesible. Map=0 Info=be99d0
+[0] MPI startup(): tmi data transfer mode
+[1] MPI startup(): tmi data transfer mode
+[0] MPI startup(): Rank    Pid      Node name                           Pin cpu
+[0] MPI startup(): 0       5358     cpn-k08-24-01.cbls.ccr.buffalo.edu  +1
+[0] MPI startup(): 1       30741    cpn-k08-26-01.cbls.ccr.buffalo.edu  +1
+1000,0.000046
+10000,0.000035
+100000,0.000218
+1000000,0.002735
+10000000,0.034114
+100000000,0.575441
+1000000000,6.293370
+1410065408,68.073269
 All Done!

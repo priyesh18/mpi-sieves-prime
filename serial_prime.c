@@ -8,9 +8,9 @@ int main(argc, argv)
 {
 	int rank, size;
 	int len;
-	double start_time, end_time, N=1000000000;
-	short int isPrime[1000000001];
-	long int t, k;
+	double start_time, end_time;
+	short int isPrime[10000000000000000001];
+	unsigned long t, k, N=10000000000000000000;
 	char procname[MPI_MAX_PROCESSOR_NAME];
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -35,7 +35,8 @@ int main(argc, argv)
 		}
 		// for(i = 2; i <= N; i++) { if(isPrime) printf("%d ",i); }
 		end_time = MPI_Wtime();
-		printf("%d,%f\n",k, end_time-start_time);
+		if(rank == 0)
+		    printf("%d,%f\n",k, end_time-start_time);
 	}
 	return 0;
 }
